@@ -2,7 +2,8 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const connectDB = require('./db/connectDB')
 const config = require('./config/config');
-const Order = require('./models/order.model')
+const Order = require('./models/order.model');
+const Cart = require('./models/cart.model')
 const Category = require('./models/category.model');
 const Product = require('./models/product.model');
 
@@ -13,6 +14,7 @@ const seed = async () => {
     await Order.deleteMany()
     await Product.deleteMany();
     await Category.deleteMany();
+    await Cart.deleteMany()
     console.log("Cleared existing data");
 
     const electronics = await Category.create({ name: 'Electronics', description: 'Gadgets and devices', slug: 'electronics' });
