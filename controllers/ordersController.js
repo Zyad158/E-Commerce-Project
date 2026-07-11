@@ -10,6 +10,8 @@ const ok = (res, data, msg = "Success", statusCode = 200) =>
 //POST /api/orders
 const createOrder = asyncHandler(async (req, res, next) => {
     const {shippingAddress} = req.body;
+    if (!shippingAddress)
+        return next(new AppError("Shipping address is required", 400));
     const cart = await Cart.findOne().populate("items.product");
     if (!cart)
         return next(new AppError("Cart not found", 404));
