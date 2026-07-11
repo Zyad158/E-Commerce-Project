@@ -57,38 +57,3 @@ seed().catch((err) => {
     console.log("Seed failed:", err.message);
     process.exit(1);
 });
-
-
-/*const mongoose = require('mongoose');
-const connectDB = require('./db/connectDB')
-const config = require('./config/config');
-const Category = require('./models/category.model');
-const Product = require('./models/product.model');
-
-const seed = async () => {
-    await connectDB();
-    console.log("Connected to MongoDB");
-
-    await Category.deleteMany();
-    await Product.deleteMany();
-    console.log("Cleared existing data");
-
-    const electronicsCategory = await Category.create({ name: "electronics" });
-    const products = [
-    {id: '1', name: 'laptop', price: 8000, stock: 10, category: electronicsCategory._id},
-    {id: '2', name: 'phone', price: 2000, stock: 20, category: electronicsCategory._id},
-    {id: '3', name: 'tablet', price: 4000, stock: 15, category: electronicsCategory._id},
-    {id: '4', name: 'headphones', price: 300, stock: 20, category: electronicsCategory._id}
-]
-
-    await Product.insertMany(products);
-    console.log(`Seeded ${products.length} products`);
-
-    await mongoose.disconnect();
-    console.log("Done - check MongoDB Compass to verify");
-};
-
-seed().catch((err) => {
-    console.log("Seed failed:", err.message);
-    process.exit(1);
-});*/
