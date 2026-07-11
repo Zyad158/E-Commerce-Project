@@ -58,11 +58,20 @@ const getOrderById = asyncHandler(async (req, res, next) => {
 //PATCH /api/orders/:id/status
 const updateOrderStatus = asyncHandler(async (req, res, next) => {
     const {status} = req.body;
-    if (!status){
-        return next(new AppError(
-            "Status is required. Allowed values: pending, confirmed, shipped, delivered, cancelled",
-            400
-        ))
+    const allowedStatus = [
+    "pending",
+    "confirmed",
+    "shipped",
+    "delivered",
+    "cancelled"
+    ];
+    if (!allowedStatus.includes(status)) {
+        return next(
+            new AppError(
+                `Invalid status. Allowed values: ${allowedStatus.join(", ")}`,
+                400
+            )
+        );
     }
     const order = await Order.findById(req.params.id);
     if (!order)
