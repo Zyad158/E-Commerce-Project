@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const cartSchema = new mongoose.Schema(
     {
+        sessionId: {
+            type: String,
+            required: true,
+            unique: true
+        },
         items: [
             {
                 product: {

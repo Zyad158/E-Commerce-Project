@@ -8,15 +8,18 @@ const ok = (res, data, msg = "Success", statusCode = 200) =>
 
 //POST /api/cart/items
 const addToCart = asyncHandler(async (req, res, next) => {
-    const {product} = req.body;
+    const {product, sessionId} = req.body;
     const foundProduct = await Product.findById(product);
     if (!foundProduct)
         return next(new AppError("Product not found", 404));
     if (foundProduct.stock <= 0)
         return next(new AppError("Product is out of stock", 400));
-    let cart = await Cart.findOne();
+    if (!sessionId)
+        return next(new AppError("Session ID is required", 400));
+    let cart = await Cart.findOne({ sessionId });
     if(!cart) {
         cart = await Cart.create({
+            sessionId,
             items: [],
             totalPrice: 0
         })
@@ -43,9 +46,12 @@ const addToCart = asyncHandler(async (req, res, next) => {
 
 //PATCH /api/cart/items/:productId
 const updateCart = asyncHandler(async (req, res, next) => {
-    const {productId} = req.params;
-    const {quantity} = req.body;
-    let cart = await Cart.findOne();
+    const { productId } = req.params;
+    const { quantity } = req.body;
+    const { sessionId } = req.query;
+    if (!sessionId)
+        return next(new AppError("Session ID is required", 400));
+    let cart = await Cart.findOne({ sessionId });
     if (!cart)
         return next(new AppError("Cart not found", 404));
     const itemIndex = cart.items.findIndex(
@@ -69,7 +75,10 @@ const updateCart = asyncHandler(async (req, res, next) => {
 //DELETE /api/cart/items/:productId
 const deleteItem = asyncHandler(async (req, res, next) => {
     const {productId} = req.params;
-    let cart = await Cart.findOne();
+    const { sessionId } = req.query;
+    if (!sessionId)
+        return next(new AppError("Session ID is required", 400));
+    let cart = await Cart.findOne({ sessionId });
     if (!cart)
         return next(new AppError("Cart not found", 404))
     const itemIndex = cart.items.findIndex(
@@ -88,7 +97,10 @@ const deleteItem = asyncHandler(async (req, res, next) => {
 
 //GET /api/cart
 const getItems = asyncHandler(async (req, res, next) => {
-    const cart = await Cart.findOne().populate("items.product");
+    const { sessionId } = req.query;
+    if (!sessionId)
+        return next(new AppError("Session ID is required", 400));
+    const cart = await Cart.findOne({ sessionId }).populate("items.product");
     if (!cart)
         return next(new AppError("Cart not found", 404));
     ok(res, cart, "Cart fetched successfully")
@@ -96,7 +108,10 @@ const getItems = asyncHandler(async (req, res, next) => {
 
 //DELETE api/cart
 const deleteCart = asyncHandler(async (req, res, next) => {
-    const cart = await Cart.findOne();
+    const { sessionId } = req.query;
+    if (!sessionId)
+        return next(new AppError("Session ID is required", 400));
+    const cart = await Cart.findOne({ sessionId });
     if (!cart)
         return next(new AppError("Cart not found", 404));
     cart.items = [];

@@ -320,7 +320,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"product\": \"6a592906cde351848569d372\"\r\n}",
+              "raw": "{\r\n    \"sessionId\": \"session_123\",\r\n    \"product\": \"6a592906cde351848569d372\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -346,12 +346,18 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/cart",
+              "raw": "{{baseUrl}}/cart?sessionId=session_123",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "cart"
+              ],
+              "query": [
+                {
+                  "key": "sessionId",
+                  "value": "session_123"
+                }
               ]
             }
           },
@@ -372,7 +378,7 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/cart/items/6a592906cde351848569d372",
+              "raw": "{{baseUrl}}/cart/items/6a592906cde351848569d372?sessionId=session_123",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -380,6 +386,12 @@
                 "cart",
                 "items",
                 "6a592906cde351848569d372"
+              ],
+              "query": [
+                {
+                  "key": "sessionId",
+                  "value": "session_123"
+                }
               ]
             }
           },
@@ -391,7 +403,7 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/cart/items/6a592906cde351848569d372",
+              "raw": "{{baseUrl}}/cart/items/6a592906cde351848569d372?sessionId=session_123",
               "host": [
                 "{{baseUrl}}"
               ],
@@ -399,6 +411,12 @@
                 "cart",
                 "items",
                 "6a592906cde351848569d372"
+              ],
+              "query": [
+                {
+                  "key": "sessionId",
+                  "value": "session_123"
+                }
               ]
             }
           },
@@ -410,12 +428,18 @@
             "method": "DELETE",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/cart",
+              "raw": "{{baseUrl}}/cart?sessionId=session_123",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "cart"
+              ],
+              "query": [
+                {
+                  "key": "sessionId",
+                  "value": "session_123"
+                }
               ]
             }
           },
