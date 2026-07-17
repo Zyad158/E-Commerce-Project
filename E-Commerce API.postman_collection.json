@@ -451,13 +451,13 @@
       "name": "Orders",
       "item": [
         {
-          "name": "New Request",
+          "name": "Add Order",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"product\": \"6a51fa6bb0ccba33a973e6ec\",\r\n    \"shippingAddress\": \"Egypt\"\r\n}",
+              "raw": "{\r\n    \"product\": \"6a51fa6bb0ccba33a973e6ec\",\r\n    \"shippingAddress\": {\r\n        \"street\": \"El-Aasar\",\r\n        \"city\": \"Damietta\",\r\n        \"country\": \"Egypt\"\r\n    }\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -465,12 +465,18 @@
               }
             },
             "url": {
-              "raw": "{{baseUrl}}/orders",
+              "raw": "{{baseUrl}}/orders?sessionId=session_124",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
                 "orders"
+              ],
+              "query": [
+                {
+                  "key": "sessionId",
+                  "value": "session_124"
+                }
               ]
             }
           },

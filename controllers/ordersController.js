@@ -9,12 +9,21 @@ const ok = (res, data, msg = "Success", statusCode = 200) =>
 
 //POST /api/orders
 const createOrder = asyncHandler(async (req, res, next) => {
-    const {shippingAddress} = req.body;
-    const cart = await Cart.findOne().populate("items.product");
+    const { shippingAddress } = req.body;
+    const { sessionId } = req.query;
+    const cart = await Cart.findOne({ sessionId }).populate("items.product");
     if (!cart)
         return next(new AppError("Cart not found", 404));
     if (cart.items.length === 0)
         return next(new AppError("Cart is empty", 400));
+    if (
+        !shippingAddress ||
+        !shippingAddress.street ||
+        !shippingAddress.city ||
+        !shippingAddress.country
+    ) {
+        return next(new AppError("Complete shipping address is required", 400));
+    }
     for (const item of cart.items) {
         if (item.quantity > item.product.stock)
             return next(new AppError("Not enough stock", 400))
@@ -51,7 +60,7 @@ const getOrders = asyncHandler(async (req, res) => {
 const getOrderById = asyncHandler(async (req, res, next) => {
     const order = await Order.findById(req.params.id);
     if (!order)
-        return next(new AppError("Order not found"), 404);
+        return next(new AppError("Order not found", 404));
     ok(res, order, "Order fetched successfully");
 })
 
